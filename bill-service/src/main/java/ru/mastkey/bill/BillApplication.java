@@ -9,6 +9,6 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 public class BillApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AbstractMethodError.class, args);
+        SpringApplication.run(BillApplication.class, args);
     }
 }
