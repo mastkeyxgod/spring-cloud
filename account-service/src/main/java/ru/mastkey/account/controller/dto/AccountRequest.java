@@ -7,7 +7,6 @@ public class AccountRequest {
 
     private String name;
     private String email;
-    private OffsetDateTime creationDate;
     private String phone;
     private List<Long> bills;
 
@@ -25,10 +24,6 @@ public class AccountRequest {
 
     public String getEmail() {
         return email;
-    }
-
-    public OffsetDateTime getCreationDate() {
-        return creationDate;
     }
 
     public String getPhone() {
