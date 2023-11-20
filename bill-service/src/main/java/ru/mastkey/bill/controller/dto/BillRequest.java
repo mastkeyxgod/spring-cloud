@@ -1,5 +1,7 @@
 package ru.mastkey.bill.controller.dto;
 
+import jakarta.persistence.JoinColumn;
+
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
@@ -10,10 +12,23 @@ public class BillRequest {
 
     private Boolean isDefault;
 
+    private OffsetDateTime creationDate;
+
     private Boolean overdraftEnable;
+
+
 
     public BillRequest() {
     }
+
+    public OffsetDateTime getCreationDate() {
+        return creationDate;
+    }
+
+    public void setCreationDate(OffsetDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
 
     public Long getAccountId() {
         return accountId;
@@ -31,14 +46,13 @@ public class BillRequest {
         this.amount = amount;
     }
 
-    public Boolean getDefault() {
+    public Boolean getIsDefault() {
         return isDefault;
     }
 
-    public void setDefault(Boolean aDefault) {
+    public void setIsDefault(Boolean aDefault) {
         isDefault = aDefault;
     }
-
 
     public Boolean getOverdraftEnable() {
         return overdraftEnable;

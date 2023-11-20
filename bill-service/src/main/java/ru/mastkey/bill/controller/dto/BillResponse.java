@@ -1,5 +1,6 @@
 package ru.mastkey.bill.controller.dto;
 
+import jakarta.persistence.JoinColumn;
 import ru.mastkey.bill.entity.Bill;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ public class BillResponse {
 
     private BigDecimal amount;
 
+    @JoinColumn(name = "isDefault")
     private Boolean isDefault;
 
     private OffsetDateTime creationDate;
@@ -63,11 +65,11 @@ public class BillResponse {
         this.amount = amount;
     }
 
-    public Boolean getDefault() {
+    public Boolean getIsDefault() {
         return isDefault;
     }
 
-    public void setDefault(Boolean aDefault) {
+    public void setIsDefault(Boolean aDefault) {
         isDefault = aDefault;
     }
 

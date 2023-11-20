@@ -13,9 +13,10 @@ public class AccountResponse {
     private OffsetDateTime creationDate;
     private List<Long> bills;
 
-    public AccountResponse(Long accountId, String name, String email, OffsetDateTime creationDate) {
+    public AccountResponse(Long accountId, String name, String email, OffsetDateTime creationDate, String phone) {
         this.accountId = accountId;
         this.name = name;
+        this.phone = phone;
         this.email = email;
         this.creationDate = creationDate;
     }
