@@ -3,18 +3,18 @@ spring:
     database: POSTGRESQL
     properties.hibernate.temp.use_jdbc_metadata_defaults: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
   datasource:
     platform: postgres
-    url: jdbc:postgresql://localhost:5432/deposit_service_database
+    url: jdbc:postgresql://192.168.0.2:5432/deposit_service_database
     username: postgres
     password: admin
     driver-class-name: org.postgresql.Driver
 
   rabbitmq:
     port: 5672
-    host: localhost
+    host: 192.168.0.2
     username: guest
     password: guest
     listener:
@@ -24,4 +24,5 @@ spring:
 server:
   servlet:
     context-path: /deposit
+  port: 9090
 
