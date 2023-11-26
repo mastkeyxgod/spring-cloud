@@ -1,6 +1,4 @@
-package ru.mastkey.account.controller.dto;
-
-import ru.mastkey.account.entity.Account;
+package ru.mastkey.bill.rest;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -13,21 +11,13 @@ public class AccountResponse {
     private OffsetDateTime creationDate;
     private List<Long> bills;
 
-    public AccountResponse(Long accountId, String name, String email, OffsetDateTime creationDate, String phone) {
+    public AccountResponse(Long accountId, String name, String email, String phone, OffsetDateTime creationDate, List<Long> bills) {
         this.accountId = accountId;
         this.name = name;
-        this.phone = phone;
         this.email = email;
+        this.phone = phone;
         this.creationDate = creationDate;
-    }
-
-    public AccountResponse(Account account) {
-        this.accountId = account.getAccountId();
-        this.name = account.getName();
-        this.email = account.getEmail();
-        this.phone = account.getPhone();
-        this.creationDate = account.getCreationDate();
-        this.bills = account.getBills();
+        this.bills = bills;
     }
 
     public String getPhone() {
@@ -36,6 +26,30 @@ public class AccountResponse {
 
     public List<Long> getBills() {
         return bills;
+    }
+
+    public void setAccountId(Long accountId) {
+        this.accountId = accountId;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public void setCreationDate(OffsetDateTime creationDate) {
+        this.creationDate = creationDate;
+    }
+
+    public void setBills(List<Long> bills) {
+        this.bills = bills;
     }
 
     public Long getAccountId() {

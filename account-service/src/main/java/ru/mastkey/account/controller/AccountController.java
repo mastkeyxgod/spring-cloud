@@ -24,7 +24,7 @@ public class AccountController {
     @PostMapping("/")
     public Long createAccount(@RequestBody AccountRequest accountRequest) {
         return accountService.createAccount(accountRequest.getName(), accountRequest.getPhone(),
-                accountRequest.getEmail(), accountRequest.getBills());
+                accountRequest.getEmail());
     }
 
     @PutMapping("/{accountId}")

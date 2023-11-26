@@ -5,6 +5,9 @@ import org.springframework.stereotype.Service;
 import ru.mastkey.bill.entity.Bill;
 import ru.mastkey.bill.exception.BillNotFound;
 import ru.mastkey.bill.repository.BillRepository;
+import ru.mastkey.bill.rest.AccountRequest;
+import ru.mastkey.bill.rest.AccountResponse;
+import ru.mastkey.bill.rest.AccountServiceClient;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -14,9 +17,12 @@ import java.util.List;
 public class BillService {
     private final BillRepository billRepository;
 
+    private final AccountServiceClient accountServiceClient;
+
     @Autowired
-    public BillService(BillRepository billRepository) {
+    public BillService(BillRepository billRepository, AccountServiceClient accountServiceClient) {
         this.billRepository = billRepository;
+        this.accountServiceClient = accountServiceClient;
     }
 
     public Bill getBillById(Long id) {
@@ -25,10 +31,33 @@ public class BillService {
         );
     }
 
-    public Long createBill(Long accountId, BigDecimal amount, Boolean isDefault, Boolean overdraftEnable) {
-        return billRepository.save(new Bill(accountId, amount, isDefault,
-                OffsetDateTime.now(), overdraftEnable))
-                .getBillId();
+    public Long createBill(Long accountId, BigDecimal amount, Boolean overdraftEnable) {
+        AccountResponse accountResponse = accountServiceClient.getAccountById(accountId);
+        List<Long> bills = accountResponse.getBills();
+
+        Bill bill = new Bill();
+
+        bill.setAccountId(accountId);
+        bill.setAmount(amount);
+        bill.setCreationDate(OffsetDateTime.now());
+        bill.setOverdraftEnable(overdraftEnable);
+        if (bills.size() == 0) {
+
+            bill.setDefault(true);
+
+        } else {
+            bill.setDefault(false);
+        }
+
+        Long billId = billRepository.save(bill).getBillId();
+
+        bills.add(billId);
+
+        accountServiceClient.updateAccount(accountId, new AccountRequest(accountResponse.getName(),accountResponse.getEmail(),
+                accountResponse.getPhone(), bills));
+
+
+        return billId;
     }
 
     public Bill updateBill(Long billId, Long accountId, BigDecimal amount, Boolean isDefault, Boolean overdraftEnable) {

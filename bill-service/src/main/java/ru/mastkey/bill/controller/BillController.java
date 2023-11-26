@@ -27,7 +27,7 @@ public class BillController {
     public Long createBill(@RequestBody BillRequest billRequest) {
         System.out.println(billRequest.getIsDefault());
         return billService.createBill(billRequest.getAccountId(), billRequest.getAmount(),
-                billRequest.getIsDefault(), billRequest.getOverdraftEnable()
+                 billRequest.getOverdraftEnable()
         );
     }
 

@@ -3,6 +3,7 @@ package ru.mastkey.account.entity;
 import jakarta.persistence.*;
 
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,18 +20,17 @@ public class Account {
 
     private OffsetDateTime creationDate;
 
-    @ElementCollection
     private List<Long> bills;
 
     public Account() {
     }
 
-    public Account(String name, String email, String phone, OffsetDateTime creationDate, List<Long> bills) {
+    public Account(String name, String email, String phone, OffsetDateTime creationDate) {
         this.name = name;
         this.email = email;
         this.phone = phone;
         this.creationDate = creationDate;
-        this.bills = bills;
+        this.bills = new ArrayList<>();
     }
 
 

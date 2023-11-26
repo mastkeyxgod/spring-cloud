@@ -13,7 +13,6 @@ import ru.mastkey.deposit.rest.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.util.List;
 
 @Service
 public class DepositService {
