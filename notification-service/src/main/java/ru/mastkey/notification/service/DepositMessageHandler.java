@@ -34,7 +34,11 @@ public class DepositMessageHandler {
         mailMessage.setTo(depositResponse.getEmail());
         mailMessage.setFrom("asdasd");
         mailMessage.setSubject("ИлюхаBank");
-        mailMessage.setText("Make deposit, sum: " + depositResponse.getAmount());
+        mailMessage.setText(String.format("Make deposit on your bill with id %s, sum: %s\n" +
+                        "New balance: %s",
+                depositResponse.getBillId().toString(),
+                depositResponse.getAmount(),
+                depositResponse.getNewBalance()));
 
         try {
             javaMailSender.send(mailMessage);

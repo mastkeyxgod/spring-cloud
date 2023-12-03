@@ -53,8 +53,9 @@ public class DepositService {
 
             depositRepository.save(new Deposit(amount, billId, OffsetDateTime.now(), email));
 
-            return getDepositResponseAndSendMessage(amount, email);
+            return getDepositResponseAndSendMessage(amount, email, billId, billRequest.getAmount());
         }
+
         BillResponse defaultBill = getDefaultBill(accountId);
         BillRequest billRequest = createBillRequest(amount, defaultBill);
         billServiceClient.update(defaultBill.getBillId(), billRequest);
@@ -62,15 +63,17 @@ public class DepositService {
 
         depositRepository.save(new Deposit(amount, defaultBill.getBillId(), OffsetDateTime.now(), account.getEmail()));
 
-        return getDepositResponseAndSendMessage(amount, account.getEmail());
+        return getDepositResponseAndSendMessage(amount, account.getEmail(), defaultBill.getBillId(), defaultBill.getAmount());
     }
 
-    private DepositResponse getDepositResponseAndSendMessage(BigDecimal amount, String email) {
-        DepositResponse depositResponse = new DepositResponse(amount, email);
+    private DepositResponse getDepositResponseAndSendMessage(BigDecimal amount, String email,
+                                                             Long billId, BigDecimal newBalance) {
+        DepositResponse depositResponse = new DepositResponse(amount, email, billId, newBalance);
 
         ObjectMapper objectMapper =new ObjectMapper();
         try {
-            rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_DEPOSIT, ROUTING_KEY_DEPOSIT, objectMapper.writeValueAsString(depositResponse));
+            rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_DEPOSIT, ROUTING_KEY_DEPOSIT,
+                    objectMapper.writeValueAsString(depositResponse));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
             throw new DepositServiceException("Can't send message to RabbitMQ");

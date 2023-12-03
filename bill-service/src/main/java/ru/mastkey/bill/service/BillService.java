@@ -65,13 +65,14 @@ public class BillService {
 
         bills.add(billId);
 
-        accountServiceClient.updateAccount(accountId, new AccountRequest(accountResponse.getName(),accountResponse.getEmail(),
-                accountResponse.getPhone(), bills));
+        accountServiceClient.updateAccount(accountId, new AccountRequest(accountResponse.getName(),
+                accountResponse.getPhone(),accountResponse.getEmail(), bills));
 
         BillRegistryNotify notify = new BillRegistryNotify(accountResponse.getEmail(), accountResponse.getName(),
                 amount, billId);
 
-        ObjectMapper objectMapper =new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
+
         try {
             rabbitTemplate.convertAndSend(TOPIC_EXCHANGE_BILL_REGISTRY, ROUTING_KEY_BILL_REGISTRY,
                     objectMapper.writeValueAsString(notify));
